@@ -41,8 +41,8 @@
         <td>{{tableResult.title}}</td>
         <td>{{tableResult.author}}</td>
         <td>{{tableResult.status}}</td>
-        <td>{{tableResult.datePosted}}</td>
-        <td>{{tableResult.dateProcessed}}</td>
+        <td>{{tableResult.datePosted | date:'MM/dd/yyyy hh:mm:ss'}}</td>
+        <td>{{tableResult.dateProcessed | date:'MM/dd/yyyy hh:mm:ss'}}</td>
         <td>{{tableResult.approver}}</td>
       </tr>
     </tbody>

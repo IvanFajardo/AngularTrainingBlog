@@ -4,9 +4,9 @@ export interface Blog {
   title: string,
   content: string,
   datePosted: Date,
-  dateProcessed: Date,
+  dateProcessed?: Date,
   status: status,
-  remarks: string,
+  remarks?: string,
   author: string,
-  approver: string
+  approver?: string
 }

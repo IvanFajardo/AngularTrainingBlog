@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Blog } from 'src/app/models/Blog';
 
 @Component({
@@ -6,7 +6,7 @@ import { Blog } from 'src/app/models/Blog';
   templateUrl: './result-table.component.html',
   styleUrls: ['./result-table.component.css']
 })
-export class ResultTableComponent implements OnInit {
+export class ResultTableComponent {
 
   constructor() { }
 
@@ -24,10 +24,6 @@ export class ResultTableComponent implements OnInit {
   createEmitter: EventEmitter<any> = new EventEmitter
 
   searchField!: string
-
-  ngOnInit(): void {
-    //tableResults init
-  }
 
   //emits a search event on input
   emitSearch() {

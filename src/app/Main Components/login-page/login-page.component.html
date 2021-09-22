@@ -2,14 +2,11 @@
 <div class="panel panel-default" style="margin-top: 50px;">
    <div class="panel-body" style="text-align: center;">
          <h1>Blog</h1>
-         <form  [formGroup]="loginForm" class="login-form" (ngSubmit)="validateUser(loginForm)">
+         <form  [formGroup]="loginForm" class="login-form" (ngSubmit)="validateUser()">
          <div class="container2">
             <div class="form-group">
                <input type="text" placeholder="Username" name = "username" formControlName="username" class="form-control">
             </div>
-            <div [hidden]="!username.errors?.invalid" style="color: red; margin:0">
-               User does not exist.
-              </div>
             <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert">
               <div *ngIf="username.errors?.required" style="color: red;">
               Username is required.
@@ -21,16 +18,13 @@
             <div class="form-group">
                <input type="password" placeholder="Password" name="password" formControlName="password"  class="form-control">
             </div>
-            <div [hidden]="!password.errors?.invalid" style="color: red; margin:0">
-               Password is incorrect.
-              </div>
             <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert">
               <div *ngIf="password.errors?.required" style="color: red;">
               Password is required.
               </div>
            </div>
          </div>
-            <input type="submit" value="LOGIN" class="btn"/>
+            <input type="submit" value="LOGIN" class="btn-success"/>
          </form>
    </div>
  </div>

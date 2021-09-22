@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/Services/user.service';
 import { User } from 'src/app/models/User';
-import {
-  FormControl,
-  FormGroup,
-  FormBuilder,
-  Validators,
-  NgForm,
-} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -43,17 +37,17 @@ export class LoginPageComponent implements OnInit {
     console.log(user.userType);
   }
 
-  validateUser(form: NgForm) {
+  validateUser() {
     let user: User | undefined;
     user = this.users.find((x) => x.username === this.loginForm.value.username);
     if (!user) {
-      form.controls['username'].setErrors({ invalid: true });
+      alert('Username does not exist.');
       return;
     }
     if (user.password == this.loginForm.value.password) {
       this.navigateTo(user);
     } else {
-      form.controls['password'].setErrors({ invalid: true });
+      alert('Password is incorrect.');
     }
   }
 }

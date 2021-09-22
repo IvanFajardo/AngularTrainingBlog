@@ -7,6 +7,7 @@ import { ResultTableComponent } from './Shared Components/result-table/result-ta
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthorPageComponent } from './Main Components/author-page/author-page.component';
+import { HttpClientModule } from '@angular/common/http';
 import { BlogService } from './Services/blog/blog.service';
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { BlogService } from './Services/blog/blog.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [BlogService],
   bootstrap: [AppComponent]

@@ -6,6 +6,7 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
+  NgForm,
 } from '@angular/forms';
 @Component({
   selector: 'app-login-page',
@@ -14,9 +15,6 @@ import {
 })
 export class LoginPageComponent implements OnInit {
   users: User[] = [];
-  validatePass: any;
-  userType!: any;
-
   loginForm: any;
 
   constructor(
@@ -41,19 +39,21 @@ export class LoginPageComponent implements OnInit {
   }
 
   //Console log first since author and approver pages are not done yet
-  navigateTo(userType: string) {
-    console.log(userType);
+  navigateTo(user: User) {
+    console.log(user.userType);
   }
 
-  validateUser() {
-    this.validatePass = this.users.find(
-      (x) => x.username === this.loginForm.value.username
-    )?.password;
-    if (this.validatePass == this.loginForm.value.password) {
-      this.userType = this.users.find(
-        (x) => x.username === this.loginForm.value.username
-      )?.userType;
-      this.navigateTo(this.userType);
+  validateUser(form: NgForm) {
+    let user: User | undefined;
+    user = this.users.find((x) => x.username === this.loginForm.value.username);
+    if (!user) {
+      form.controls['username'].setErrors({ invalid: true });
+      return;
+    }
+    if (user.password == this.loginForm.value.password) {
+      this.navigateTo(user);
+    } else {
+      form.controls['password'].setErrors({ invalid: true });
     }
   }
 }

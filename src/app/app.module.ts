@@ -14,7 +14,7 @@ import { LoginPageComponent } from './Main Components/login-page/login-page.comp
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot([{ path: 'login', component: LoginPageComponent }]),
+    RouterModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -7,6 +7,7 @@ import { ResultTableComponent } from './Shared Components/result-table/result-ta
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthorPageComponent } from './Main Components/author-page/author-page.component';
+import { BlogService } from './Services/blog/blog.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,7 @@ import { AuthorPageComponent } from './Main Components/author-page/author-page.c
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [BlogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,4 +3,5 @@
   (editEmitter)="editBlog($event)"
   (deleteEmitter)="deleteBlog($event)"
   (createEmitter)="createBlog()"
+  [tableResults]="filteredTableResults ? filteredTableResults : tableResults"
 ></app-result-table>

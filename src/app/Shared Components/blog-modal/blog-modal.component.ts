@@ -7,7 +7,7 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-blog-modal',
   templateUrl: './blog-modal.component.html',
@@ -15,22 +15,13 @@ import { FormBuilder, FormControl } from '@angular/forms';
 })
 export class BlogModalComponent implements OnInit {
   @Output() buttonEmitter = new EventEmitter();
-  @Input() content?: FormControl;
-  @Input() remarks?: FormControl;
-  @Input() title?: string;
+  @Input() content = new FormControl();
+  @Input() remarks = new FormControl();
+  @Input() title?: string = 'Sample Blog';
   @Input() type?: string;
 
-  blogForm: any;
   public modalRef?: BsModalRef;
-  constructor(
-    private modalService: BsModalService,
-    private formBuilder: FormBuilder
-  ) {
-    this.blogForm = this.formBuilder.group({
-      content: [''],
-      remarks: [''],
-    });
-  }
+  constructor(private modalService: BsModalService) {}
 
   ngOnInit(): void {}
 
@@ -39,6 +30,8 @@ export class BlogModalComponent implements OnInit {
   }
 
   emitButton(buttonName: string) {
+    console.log(this.content.value);
+    console.log(this.remarks.value);
     console.log(buttonName);
     this.buttonEmitter.emit(buttonName);
   }

@@ -1,15 +1,32 @@
-<button type="button" class="btn btn-info" 
-        (click)="openModal(template)">Create template modal</button>
+ <ng-template #template>
+  <div class="modal-header" style="padding: 5px 10px 5px 10px;">
+    <h4 class="modal-title pull-left">{{title}}</h4>
+    <button type="button" class="btn-close close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body" style="margin-bottom: 20px;">
+    <form  [formGroup]="blogForm" >
+        <div style="margin-left:10px;">
+           <div class="form-group">
+            <p>Content</p>
+            <textarea readonly id="txtArea" *ngIf="type =='Approver'" rows="7" cols="70%" style="resize: none;" name = "content" formControlName="content" class="form-control"></textarea>
+            <textarea id="txtArea" *ngIf="type =='Author'" rows="7" cols="70%" style="resize: none;" name = "content" formControlName="content" class="form-control"></textarea>
+           </div>
+           <div class="form-group" *ngIf="type =='Approver'">
+            <p>Remarks</p>
+            <textarea id="txtArea" rows="4" cols="70%" style="resize: none;" name = "remarks" formControlName="remarks" class="form-control"></textarea>
+           </div>
+        </div>
+        <div *ngIf="type =='Author'">
+            <button type="submit" class="btn btn-success btn-sm pull-right" (click)="emitButton('submit')">Submit</button>
+            <button type="submit" class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" (click)="emitButton('draft')">Draft</button>
+        </div>
 
-<ng-template #template>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Modal</h4>
-        <button type="button" class="close pull-right" 
-                aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    </div>
-    <div class="modal-body">
-        This is a modal.
-    </div>
+        <div *ngIf="type =='Approver'">
+            <button type="submit" class="btn btn-success btn-sm pull-right" (click)="emitButton('approve')">Approve</button>
+            <button type="submit" class="btn btn-danger btn-sm pull-right" style="margin-right: 10px;" (click)="emitButton('reject')">Reject</button>
+        </div>
+        </form>
+  </div>
 </ng-template>

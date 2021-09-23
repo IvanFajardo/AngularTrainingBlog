@@ -42,7 +42,7 @@
         <td>{{tableResult.author}}</td>
         <td>{{tableResult.status}}</td>
         <td>{{tableResult.datePosted | date:'MM/dd/YYYY hh:mm:ss a'}}</td>
-        <td>{{tableResult.dateProcessed | date:'MM/dd/YYYY hh:mm:ss a' || '-'}}</td>
+        <td>{{(tableResult.dateProcessed | date:'MM/dd/YYYY hh:mm:ss a') || '-'}}</td>
         <td>{{tableResult.approver || '-'}}</td>
       </tr>
     </tbody>

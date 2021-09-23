@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/Services/user.service';
 import { User } from 'src/app/models/User';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -13,7 +14,8 @@ export class LoginPageComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -33,8 +35,8 @@ export class LoginPageComponent implements OnInit {
   }
 
   //Console log first since author and approver pages are not done yet
-  navigateTo(user: User) {
-    console.log(user.userType);
+  navigateTo(url: string) {
+    this.router.navigate([url])
   }
 
   validateUser() {
@@ -45,7 +47,8 @@ export class LoginPageComponent implements OnInit {
       return;
     }
     if (user.password == this.loginForm.value.password) {
-      this.navigateTo(user);
+      sessionStorage.setItem('currentUser',JSON.stringify(user))
+      this.navigateTo('blog'); //add approver or author
     } else {
       alert('Password is incorrect.');
     }

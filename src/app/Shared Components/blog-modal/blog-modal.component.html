@@ -1,4 +1,4 @@
-  <ng-template #template>
+ <ng-template #template>
   <div class="modal-header" style="padding: 5px 10px 5px 10px; text-align: center;">
     <h4 style="display: inline-block; margin:0;">{{title}}</h4>
     <button type="button" class="btn-close close" style="display: inline-block; vertical-align: middle;" aria-label="Close" (click)="close()">
@@ -10,7 +10,7 @@
         <div style="margin-left:10px;">
            <div class="form-group">
             <h4>Content</h4>
-            <textarea readonly id="txtArea" *ngIf="type =='Approver'" rows="7" cols="70%" style="resize: none;" name = "content" formControlName="content" class="form-control"></textarea>
+            <textarea readonly id="txtArea" *ngIf="type =='Approver'" rows="7" cols="70%" style="resize: none;" name = "content" [formControl]="content" class="form-control"></textarea>
             <textarea id="txtArea" *ngIf="type =='Author'" rows="7" cols="70%" style="resize: none;" name = "content" [formControl]="content" class="form-control"></textarea>
            </div>
            <div class="form-group" *ngIf="type =='Approver'">

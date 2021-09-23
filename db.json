@@ -1,5 +1,5 @@
 {
-  "blogs":[
+  "blogs": [
     {
       "id": 1,
       "title": "blog1",
@@ -23,6 +23,20 @@
       "datePosted": "Wed Apr 24 2019 10:33:30 GMT+0800 (China Standard Time)",
       "status": "Draft",
       "author": "blogger1"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "username": "andre",
+      "password": "123",
+      "userType": "Author"
+    },
+    {
+      "id": 2,
+      "username": "paul",
+      "password": "123",
+      "userType": "Approver"
     }
   ]
 }

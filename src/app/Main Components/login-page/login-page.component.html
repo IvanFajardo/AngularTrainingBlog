@@ -1,0 +1,31 @@
+<div class="container">
+<div class="panel panel-default" style="margin-top: 50px;">
+   <div class="panel-body" style="text-align: center;">
+         <h1>Blog</h1>
+         <form  [formGroup]="loginForm" class="login-form" (ngSubmit)="validateUser()">
+         <div class="container2">
+            <div class="form-group">
+               <input type="text" placeholder="Username" name = "username" formControlName="username" class="form-control">
+            </div>
+            <div *ngIf="username.invalid && (username.dirty || username.touched)" class="alert">
+              <div *ngIf="username.errors?.required" style="color: red;">
+              Username is required.
+              </div>
+           </div>
+         </div>
+
+         <div class="container2">
+            <div class="form-group">
+               <input type="password" placeholder="Password" name="password" formControlName="password"  class="form-control">
+            </div>
+            <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert">
+              <div *ngIf="password.errors?.required" style="color: red;">
+              Password is required.
+              </div>
+           </div>
+         </div>
+            <button type="submit" class="btn btn-success"><b>LOGIN</b></button>
+         </form>
+   </div>
+ </div>
+</div>	

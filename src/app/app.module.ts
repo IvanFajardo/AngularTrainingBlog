@@ -11,6 +11,7 @@ import { HeaderComponent } from './Shared Components/header/header.component';
 import { LoginPageComponent } from './Main Components/login-page/login-page.component';
 import { ResultTableComponent } from './Shared Components/result-table/result-table.component';
 import { BlogModalComponent } from './Shared Components/blog-modal/blog-modal.component';
+import { ApproverPageComponent } from './Main Components/approver-page/approver-page.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,6 +19,7 @@ import { BlogModalComponent } from './Shared Components/blog-modal/blog-modal.co
     LoginPageComponent,
     ResultTableComponent,
     BlogModalComponent,
+    ApproverPageComponent,
   ],
   imports: [
     BrowserModule,

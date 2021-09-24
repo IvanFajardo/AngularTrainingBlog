@@ -1,0 +1,34 @@
+ <ng-template #template>
+  <div class="modal-header" style="padding: 5px 10px 5px 10px; text-align: center;">
+    <h4 style="display: inline-block; margin:0;">{{title}}</h4>
+    <button type="button" class="btn-close close" style="display: inline-block; vertical-align: middle;" aria-label="Close" (click)="close()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+    <form>
+        <div style="margin-left:10px;">
+           <div class="form-group">
+            <h4>Content</h4>
+            <textarea readonly id="txtArea" *ngIf="type =='Approver'" rows="7" cols="70%" style="resize: none;" name = "content" [formControl]="content" class="form-control"></textarea>
+            <textarea id="txtArea" *ngIf="type =='Author'" rows="7" cols="70%" style="resize: none;" name = "content" [formControl]="content" class="form-control"></textarea>
+           </div>
+           <div class="form-group" *ngIf="type =='Approver'">
+            <h4>Remarks</h4>
+            <textarea id="txtArea" rows="4" cols="70%" style="resize: none;" name = "remarks" [formControl]="remarks" class="form-control"></textarea>
+           </div>
+        </div>
+        </form>
+  </div>
+  <div class="modal-footer" style="padding: 5px 10px 5px 10px;">
+    <div *ngIf="type =='Author'">
+        <button type="submit" class="btn btn-success btn-sm pull-right" (click)="emitButton('submit')">Submit</button>
+        <button type="submit" class="btn btn-success btn-sm pull-right" style="margin-right: 10px;" (click)="emitButton('draft')">Draft</button>
+    </div>
+
+    <div *ngIf="type =='Approver'">
+        <button type="submit" class="btn btn-success btn-sm pull-right" (click)="emitButton('approve')">Approve</button>
+        <button type="submit" class="btn btn-danger btn-sm pull-right" style="margin-right: 10px;" (click)="emitButton('reject')">Reject</button>
+    </div>
+  </div>
+</ng-template>

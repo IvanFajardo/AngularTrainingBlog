@@ -67,6 +67,7 @@ export class AuthorPageComponent implements OnInit {
   }
 
   //sets the row values from results to the modalgroup
+  //id:number = id of blog row
   setModal(id: number) {
     let blog = this.tableResults.find((result) => result.id === id);
     this.modalGroup.setValue({
@@ -81,25 +82,6 @@ export class AuthorPageComponent implements OnInit {
     this.blogService.getBlogs().subscribe((data) => (this.tableResults = data));
   }
 
-  //function to create a new blog object for creating new blogs
-  createNewBlog(buttonName: string) {
-    let newBlog = {
-      id: this.generateID(),
-      title: this.modalGroup.get('title')?.value,
-      content: this.modalGroup.get('content')?.value,
-      datePosted: new Date(),
-      status: (buttonName === 'submit'
-        ? 'For Approval'
-        : 'Draft') as status,
-      author: this.user.username,
-    };
-
-    this.blogService
-      .addBlog(newBlog)
-      .subscribe(
-        (data) => (this.tableResults = [...this.tableResults, newBlog])
-      );
-  }
 
   //saves the data from modalGroup to DB. Set status based on buttonName
   updateStatus(buttonName: string) {
@@ -124,7 +106,28 @@ export class AuthorPageComponent implements OnInit {
     }
   }
 
+  //function to create a new blog object for creating new blogs
+  createNewBlog(buttonName: string) {
+    let newBlog = {
+      id: this.generateID(),
+      title: this.modalGroup.get('title')?.value,
+      content: this.modalGroup.get('content')?.value,
+      datePosted: new Date(),
+      status: (buttonName === 'submit'
+        ? 'For Approval'
+        : 'Draft') as status,
+      author: this.user.username,
+    };
+
+    this.blogService
+      .addBlog(newBlog)
+      .subscribe(
+        (data) => (this.tableResults = [...this.tableResults, newBlog])
+      );
+  }
+
   //function to create a new blog object for edit
+  //blog: Blog = edited blog object
   doEdit(blog: Blog) {
     this.blogService.editBlog(blog as Blog).subscribe((data) => {
       this.tableResults = this.tableResults.map((b) => {
@@ -142,6 +145,7 @@ export class AuthorPageComponent implements OnInit {
   }
 
   //open modal in blog-modal.component
+  //id?:number = id of clicked blog
   showModal(id?: number) {
     if (id) this.currentBlogID = id;
     const initialState = {

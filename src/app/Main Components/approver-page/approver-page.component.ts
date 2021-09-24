@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Blog } from 'src/app/models/Blog';
+import { User } from 'src/app/models/User';
+import { BlogService } from 'src/app/Services/blog/blog.service';
 
 @Component({
   selector: 'app-approver-page',
@@ -8,10 +11,18 @@ import { Blog } from 'src/app/models/Blog';
   styleUrls: ['./approver-page.component.css'],
 })
 export class ApproverPageComponent implements OnInit {
-  tableResults: Blog[] = [];
-  constructor() {}
+  tableResults!: Blog[];
+  filteredTableResults!: Blog[];
+  user!: User;
+  constructor(
+    private formBuilder: FormBuilder,
+    private blogService: BlogService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.user = JSON.parse(sessionStorage.getItem('currentUser')!);
+    this.getBlog();
+  }
 
   doSearch(event: string) {}
 

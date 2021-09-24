@@ -1,6 +1,8 @@
-<app-header></app-header>
-
 <div style="margin-top: 50px;">
-<app-result-table></app-result-table>
+<app-result-table
+  (searchEmitter)="doSearch($event)"
+  [tableResults]="filteredTableResults ? filteredTableResults : tableResults"
+  [type]="user.userType"
+></app-result-table>
 </div>
 

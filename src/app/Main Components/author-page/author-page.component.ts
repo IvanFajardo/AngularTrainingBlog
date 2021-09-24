@@ -19,6 +19,7 @@ export class AuthorPageComponent implements OnInit {
     private modalService: BsModalService
   ) {}
   modalGroup = this.fb.group({
+    title: [''],
     content: [''],
     remarks: [''],
   });
@@ -38,7 +39,7 @@ export class AuthorPageComponent implements OnInit {
   //str: string = user input
   doSearch(str: string) {
     this.filteredTableResults = this.tableResults.filter((data) =>
-      data.title.includes(str)
+      data.title.toLowerCase().includes(str.toLowerCase())
     );
   }
 
@@ -69,6 +70,7 @@ export class AuthorPageComponent implements OnInit {
   setModal(id: number) {
     let blog = this.tableResults.find((result) => result.id === id);
     this.modalGroup.setValue({
+      title: blog?.title,
       content: blog?.content,
       remarks: blog?.remarks || '',
     });
@@ -79,99 +81,50 @@ export class AuthorPageComponent implements OnInit {
     this.blogService.getBlogs().subscribe((data) => (this.tableResults = data));
   }
 
+  //function to create a new blog object for creating new blogs
+  createNewBlog(buttonName: string) {
+    let newBlog = {
+      id: this.generateID(),
+      title: this.modalGroup.get('title')?.value,
+      content: this.modalGroup.get('content')?.value,
+      datePosted: new Date(),
+      status: (buttonName === 'submit'
+        ? 'For Approval'
+        : 'Draft') as status,
+      author: this.user.username,
+    };
+
+    this.blogService
+      .addBlog(newBlog)
+      .subscribe(
+        (data) => (this.tableResults = [...this.tableResults, newBlog])
+      );
+  }
+
   //saves the data from modalGroup to DB. Set status based on buttonName
   updateStatus(buttonName: string) {
-    switch (buttonName) {
-      case 'draft':
-      case 'submit':
-        if (this.currentBlogID === -1) {
-          let newBlog = {
-            id: this.generateID(),
-            title: '',
-            content: this.modalGroup.get('content')?.value,
-            datePosted: new Date(),
-            status: (buttonName === 'draft'
-              ? 'Draft'
-              : 'For Approval') as status,
-            author: this.user.username,
-          };
-
-          this.blogService
-            .addBlog(newBlog)
-            .subscribe(
-              (data) => (this.tableResults = [...this.tableResults, newBlog])
-            );
-        } else {
-
-          let currentBlog = this.tableResults.find(
-            (data) => data.id === this.currentBlogID
-          );
-          
-          let blog = {
-            id: this.currentBlogID,
-            title: currentBlog?.title,
-            content: this.modalGroup.get('content')?.value,
-            datePosted: currentBlog?.datePosted,
-            author: currentBlog?.author,
-            status: (buttonName === 'draft'
-              ? 'Draft'
-              : 'For Approval') as status,
-          };
-
-          this.doEdit(blog as Blog);
-        }
-        break;
-
-      case 'approve':
-      case 'reject':
-        let currentBlog = this.tableResults.find(
-          (data) => data.id === this.currentBlogID
-        );
-        let blog = {
-          id: this.currentBlogID,
-          title: currentBlog?.title,
-          content: currentBlog?.content,
-          datePosted: currentBlog?.datePosted,
-          dateProcessed: new Date(),
-          remarks: this.modalGroup.get('remarks')?.value,
-          author: currentBlog?.author,
-          approver: this.user.username,
-          status: (buttonName === 'approve'
-            ? 'Approved'
-            : 'Rejected') as status,
-        };
-
-        this.doEdit(blog as Blog);
-        break;
+    if (this.currentBlogID === -1)
+      this.createNewBlog(buttonName)
+    else {
+      const currentBlog = this.tableResults.find(
+        (data) => data.id === this.currentBlogID
+      );
+      const blog = {
+        id: this.currentBlogID,
+        title: this.modalGroup.get('title')?.value,
+        content: this.modalGroup.get('content')?.value,
+        datePosted: currentBlog?.datePosted,
+        dateProcessed: currentBlog?.dateProcessed,
+        status: buttonName==='submit' ? 'For Approval' : 'Draft',
+        remarks: this.modalGroup.get('remarks')?.value,
+        author: currentBlog?.author,
+        approver: currentBlog?.approver
+      }
+      this.doEdit(blog as Blog)
     }
-    //update
   }
 
-  generateID(): number {
-    return this.tableResults.reduce((a, b) => (a.id > b.id ? a : b)).id + 1;
-  }
-
-  showModal(id?: number) {
-    if (id) this.currentBlogID = id;
-    const initialState = {
-      content: this.modalGroup.get('content') as FormControl,
-      remarks: this.modalGroup.get('remarks') as FormControl,
-      title: 'test',
-      type: this.user.userType,
-    };
-    this.bsModalRef = this.modalService.show(BlogModalComponent, {
-      initialState,
-    });
-    //show modal
-    this.bsModalRef.content.buttonEmitter.subscribe((res: any) =>
-      this.updateStatus(res)
-    );
-
-    this.bsModalRef.onHidden?.subscribe(
-      (res: any) => (this.currentBlogID = -1)
-    );
-  }
-
+  //function to create a new blog object for edit
   doEdit(blog: Blog) {
     this.blogService.editBlog(blog as Blog).subscribe((data) => {
       this.tableResults = this.tableResults.map((b) => {
@@ -181,5 +134,31 @@ export class AuthorPageComponent implements OnInit {
         return b;
       });
     });
+  }
+
+  //generate a valid id
+  generateID(): number {
+    return this.tableResults.reduce((a, b) => (a.id > b.id ? a : b)).id + 1;
+  }
+
+  //open modal in blog-modal.component
+  showModal(id?: number) {
+    if (id) this.currentBlogID = id;
+    const initialState = {
+      content: this.modalGroup.get('content') as FormControl,
+      remarks: this.modalGroup.get('remarks') as FormControl,
+      title: this.modalGroup.get('title') as FormControl,
+      type: this.user.userType,
+    };
+    this.bsModalRef = this.modalService.show(BlogModalComponent, {initialState});
+
+    //subscribe to event emitter
+    this.bsModalRef.content.buttonEmitter.subscribe((res: any) =>
+      this.updateStatus(res)
+    );
+
+    this.bsModalRef.onHidden?.subscribe(
+      (res: any) => (this.currentBlogID = -1)
+    );
   }
 }

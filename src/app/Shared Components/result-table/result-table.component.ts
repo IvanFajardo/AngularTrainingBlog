@@ -25,7 +25,7 @@ export class ResultTableComponent {
 
   searchField!: string
 
-  isDraftisApprover(str: string) {
+  isDraftisApprover(str: string):boolean {
     if(this.type!=='Approver')
       return false
     return str==='Draft'

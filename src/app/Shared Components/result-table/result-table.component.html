@@ -31,23 +31,21 @@
 
     <tbody>
       <!-- *ngFor -->
-      <ng-container *ngFor="let tableResult of tableResults">
-        <tr *ngIf="!isDraftisApprover(tableResult.status)">
-          <td class="none">
-            <button type="button" (click)="emitDelete(tableResult.id)" class="btn btn-default btn-lg"
-              *ngIf="type!=='Approver'">
-              <i class="fas fa-trash-alt"></i></button>
-            <button type="button" (click)="emitEdit(tableResult.id)" class="btn btn-default btn-lg">
-              <i class="fas fa-edit"></i></button>
-          </td>
-          <td>{{tableResult.title}}</td>
-          <td>{{tableResult.author}}</td>
-          <td>{{tableResult.status}}</td>
-          <td>{{tableResult.datePosted | date:'MM/dd/YYYY hh:mm:ss a'}}</td>
-          <td>{{(tableResult.dateProcessed | date:'MM/dd/YYYY hh:mm:ss a') || '-'}}</td>
-          <td>{{tableResult.approver || '-'}}</td>
-        </tr>
-      </ng-container>
+      <tr *ngFor="let tableResult of tableResults">
+        <td class="none">
+          <button type="button" (click)="emitDelete(tableResult.id)" class="btn btn-default btn-lg"
+            *ngIf="type!=='Approver'">
+            <i class="fas fa-trash-alt"></i></button>
+          <button type="button" (click)="emitEdit(tableResult.id)" class="btn btn-default btn-lg">
+            <i class="fas fa-edit"></i></button>
+        </td>
+        <td>{{tableResult.title}}</td>
+        <td>{{tableResult.author}}</td>
+        <td>{{tableResult.status}}</td>
+        <td>{{tableResult.datePosted | date:'MM/dd/YYYY hh:mm:ss a'}}</td>
+        <td>{{(tableResult.dateProcessed | date:'MM/dd/YYYY hh:mm:ss a') || '-'}}</td>
+        <td>{{tableResult.approver || '-'}}</td>
+      </tr>
     </tbody>
   </table>
 </div>

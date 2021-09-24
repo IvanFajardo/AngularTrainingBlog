@@ -4,6 +4,8 @@ import { FormBuilder } from '@angular/forms';
 import { Blog } from 'src/app/models/Blog';
 import { User } from 'src/app/models/User';
 import { BlogService } from 'src/app/Services/blog/blog.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BlogModalComponent } from 'src/app/Shared Components/blog-modal/blog-modal.component';
 
 @Component({
   selector: 'app-approver-page',
@@ -14,10 +16,10 @@ export class ApproverPageComponent implements OnInit {
   tableResults!: Blog[];
   filteredTableResults!: Blog[];
   user!: User;
-
+  bsModalRef!: BsModalRef;
   constructor(
-    private formBuilder: FormBuilder,
-    private blogService: BlogService
+    private blogService: BlogService,
+    private modalService: BsModalService
   ) {}
 
   modalGroup = new FormGroup({
@@ -45,7 +47,16 @@ export class ApproverPageComponent implements OnInit {
   }
 
   viewRow(event: number) {
+    const initialState = {
+      content: this.content,
+      remarks: this.remarks,
+      type: this.user.userType,
+    };
+
     this.setModal(event);
+    this.bsModalRef = this.modalService.show(BlogModalComponent, {
+      initialState,
+    });
   }
 
   setModal(id: number) {

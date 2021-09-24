@@ -17,17 +17,13 @@ export class BlogModalComponent implements OnInit {
   @Output() buttonEmitter = new EventEmitter();
   @Input() content = new FormControl();
   @Input() remarks = new FormControl();
-  @Input() title?: string = 'Sample Blog';
+  @Input() title?: string;
   @Input() type?: string;
 
   public modalRef?: BsModalRef;
-  constructor(private modalService: BsModalService) {}
+  constructor() {}
 
   ngOnInit(): void {}
-
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
 
   emitButton(buttonName: string) {
     console.log(this.content.value);

@@ -36,7 +36,7 @@ export class LoginPageComponent implements OnInit {
 
   //Console log first since author and approver pages are not done yet
   navigateTo(url: string) {
-    this.router.navigate([url])
+    this.router.navigate([url]);
   }
 
   validateUser() {
@@ -47,8 +47,9 @@ export class LoginPageComponent implements OnInit {
       return;
     }
     if (user.password == this.loginForm.value.password) {
-      sessionStorage.setItem('currentUser',JSON.stringify(user))
-      this.navigateTo('blog'); //add approver or author
+      sessionStorage.setItem('currentUser', JSON.stringify(user));
+      console.log(user.userType);
+      this.navigateTo(`blog/${user.userType.toLowerCase()}`); //add approver or author
     } else {
       alert('Password is incorrect.');
     }

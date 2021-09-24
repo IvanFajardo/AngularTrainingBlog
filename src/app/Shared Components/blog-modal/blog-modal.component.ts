@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  TemplateRef,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormControl } from '@angular/forms';
 @Component({
@@ -15,9 +8,10 @@ import { FormControl } from '@angular/forms';
 })
 export class BlogModalComponent implements OnInit {
   @Output() buttonEmitter = new EventEmitter();
+  @Input() title = new FormControl();
   @Input() content = new FormControl();
   @Input() remarks = new FormControl();
-  @Input() title?: string;
+
   @Input() type?: string;
 
   public modalRef?: BsModalRef;
@@ -28,6 +22,7 @@ export class BlogModalComponent implements OnInit {
   emitButton(buttonName: string) {
     console.log(this.content.value);
     console.log(this.remarks.value);
+    console.log(this.title.value);
     console.log(buttonName);
     this.buttonEmitter.emit(buttonName);
   }

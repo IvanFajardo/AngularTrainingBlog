@@ -15,19 +15,16 @@ export class BlogModalComponent implements OnInit {
   @Input() type?: string;
 
   public modalRef?: BsModalRef;
-  constructor() {}
+  constructor(private modalService: BsModalService) {}
 
   ngOnInit(): void {}
 
   emitButton(buttonName: string) {
-    console.log(this.content.value);
-    console.log(this.remarks.value);
-    console.log(this.title.value);
-    console.log(buttonName);
     this.buttonEmitter.emit(buttonName);
+    this.modalService.hide();
   }
 
   close() {
-    this.modalRef?.hide();
+    this.modalService.hide();
   }
 }

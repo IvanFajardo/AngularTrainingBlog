@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
+import { status } from 'src/app/models/Blog';
 import { Blog } from 'src/app/models/Blog';
 import { User } from 'src/app/models/User';
 import { BlogService } from 'src/app/Services/blog/blog.service';
@@ -17,12 +17,15 @@ export class ApproverPageComponent implements OnInit {
   filteredTableResults!: Blog[];
   user!: User;
   bsModalRef!: BsModalRef;
+  blogID?: number;
+
   constructor(
     private blogService: BlogService,
     private modalService: BsModalService
   ) {}
 
   modalGroup = new FormGroup({
+    title: new FormControl(),
     content: new FormControl(),
     remarks: new FormControl(),
   });
@@ -33,6 +36,10 @@ export class ApproverPageComponent implements OnInit {
 
   get remarks() {
     return this.modalGroup.get('remarks') as FormControl;
+  }
+
+  get title() {
+    return this.modalGroup.get('title') as FormControl;
   }
 
   ngOnInit(): void {
@@ -51,20 +58,27 @@ export class ApproverPageComponent implements OnInit {
       content: this.content,
       remarks: this.remarks,
       type: this.user.userType,
+      title: this.title,
     };
 
     this.setModal(event);
     this.bsModalRef = this.modalService.show(BlogModalComponent, {
       initialState,
     });
+
+    this.bsModalRef.content.buttonEmitter.subscribe((res: any) =>
+      this.updateStatus(res)
+    );
   }
 
   setModal(id: number) {
+    this.blogID = id;
     let blog: Blog | undefined;
     blog = this.tableResults.find((x) => x.id === id);
     this.modalGroup.setValue({
       content: blog?.content,
       remarks: blog?.remarks,
+      title: blog?.title,
     });
   }
 
@@ -72,5 +86,40 @@ export class ApproverPageComponent implements OnInit {
     this.blogService.getBlogs().subscribe((data) => (this.tableResults = data));
   }
 
-  updateStatus(buttonName: string) {}
+  updateStatus(buttonName: string) {
+    switch (buttonName) {
+      case 'approve':
+      case 'reject':
+        let currentBlog = this.tableResults.find(
+          (data) => data.id === this.blogID
+        );
+        let editedBlog = {
+          id: this.blogID,
+          title: currentBlog?.title,
+          content: currentBlog?.content,
+          datePosted: currentBlog?.datePosted,
+          dateProcessed: new Date(),
+          remarks: this.modalGroup.get('remarks')?.value,
+          author: currentBlog?.author,
+          approver: this.user.username,
+          status: (buttonName === 'approve'
+            ? 'Approved'
+            : 'Rejected') as status,
+        };
+
+        this.doEdit(editedBlog as Blog);
+        break;
+    }
+  }
+
+  doEdit(blog: Blog) {
+    this.blogService.editBlog(blog as Blog).subscribe((data) => {
+      this.tableResults = this.tableResults.map((b) => {
+        if (b.id === blog!.id) {
+          b = Object.assign({}, b, blog);
+        }
+        return b;
+      });
+    });
+  }
 }

@@ -1,17 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { Blog } from 'src/app/models/Blog';
 import { User } from 'src/app/models/User';
 import { BlogService } from 'src/app/Services/blog/blog.service';
 import { status } from 'src/app/models/Blog';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BlogModalComponent } from 'src/app/Shared Components/blog-modal/blog-modal.component';
 @Component({
   selector: 'app-author-page',
   templateUrl: './author-page.component.html',
   styleUrls: ['./author-page.component.css'],
 })
 export class AuthorPageComponent implements OnInit {
-  constructor(private fb: FormBuilder, private blogService: BlogService) {}
-
+  bsModalRef!: BsModalRef;
+  constructor(
+    private fb: FormBuilder,
+    private blogService: BlogService,
+    private modalService: BsModalService
+  ) {}
   modalGroup = this.fb.group({
     content: [''],
     remarks: [''],
@@ -20,6 +26,7 @@ export class AuthorPageComponent implements OnInit {
   tableResults!: Blog[];
   filteredTableResults!: Blog[];
   user!: User;
+  currentBlogID: number = -1;
 
   ngOnInit(): void {
     //subscribe to blogs
@@ -49,13 +56,13 @@ export class AuthorPageComponent implements OnInit {
   //id:number = id of blog row
   editBlog(id: number) {
     this.setModal(id);
-    console.log(this.modalGroup);
-    //show modal
+    this.showModal(id);
   }
 
   //triggers on create event and shows blog-modal for creation
   createBlog() {
-    //create
+    this.modalGroup.reset();
+    this.showModal();
   }
 
   //sets the row values from results to the modalgroup
@@ -76,33 +83,103 @@ export class AuthorPageComponent implements OnInit {
   updateStatus(buttonName: string) {
     switch (buttonName) {
       case 'draft':
-        let newBlog = {
-          id: 1,
-          title: '',
-          content: this.modalGroup.get('content')?.value,
-          datePosted: new Date(),
-          status: 'Draft' as status,
-          author: this.user.username,
-        };
-        this.blogService
-          .addBlog(newBlog)
-          .subscribe(
-            data => this.tableResults = [...this.tableResults, newBlog]
-          );
-        break;
-
       case 'submit':
-        //id
+        if (this.currentBlogID === -1) {
+          let newBlog = {
+            id: this.generateID(),
+            title: '',
+            content: this.modalGroup.get('content')?.value,
+            datePosted: new Date(),
+            status: (buttonName === 'draft'
+              ? 'Draft'
+              : 'For Approval') as status,
+            author: this.user.username,
+          };
+
+          this.blogService
+            .addBlog(newBlog)
+            .subscribe(
+              (data) => (this.tableResults = [...this.tableResults, newBlog])
+            );
+        } else {
+
+          let currentBlog = this.tableResults.find(
+            (data) => data.id === this.currentBlogID
+          );
+          
+          let blog = {
+            id: this.currentBlogID,
+            title: currentBlog?.title,
+            content: this.modalGroup.get('content')?.value,
+            datePosted: currentBlog?.datePosted,
+            author: currentBlog?.author,
+            status: (buttonName === 'draft'
+              ? 'Draft'
+              : 'For Approval') as status,
+          };
+
+          this.doEdit(blog as Blog);
+        }
         break;
 
       case 'approve':
-        //id
-        break;
-
       case 'reject':
-        //id
+        let currentBlog = this.tableResults.find(
+          (data) => data.id === this.currentBlogID
+        );
+        let blog = {
+          id: this.currentBlogID,
+          title: currentBlog?.title,
+          content: currentBlog?.content,
+          datePosted: currentBlog?.datePosted,
+          dateProcessed: new Date(),
+          remarks: this.modalGroup.get('remarks')?.value,
+          author: currentBlog?.author,
+          approver: this.user.username,
+          status: (buttonName === 'approve'
+            ? 'Approved'
+            : 'Rejected') as status,
+        };
+
+        this.doEdit(blog as Blog);
         break;
     }
     //update
+  }
+
+  generateID(): number {
+    return this.tableResults.reduce((a, b) => (a.id > b.id ? a : b)).id + 1;
+  }
+
+  showModal(id?: number) {
+    if (id) this.currentBlogID = id;
+    const initialState = {
+      content: this.modalGroup.get('content') as FormControl,
+      remarks: this.modalGroup.get('remarks') as FormControl,
+      title: 'test',
+      type: this.user.userType,
+    };
+    this.bsModalRef = this.modalService.show(BlogModalComponent, {
+      initialState,
+    });
+    //show modal
+    this.bsModalRef.content.buttonEmitter.subscribe((res: any) =>
+      this.updateStatus(res)
+    );
+
+    this.bsModalRef.onHidden?.subscribe(
+      (res: any) => (this.currentBlogID = -1)
+    );
+  }
+
+  doEdit(blog: Blog) {
+    this.blogService.editBlog(blog as Blog).subscribe((data) => {
+      this.tableResults = this.tableResults.map((b) => {
+        if (b.id === blog!.id) {
+          b = Object.assign({}, b, blog);
+        }
+        return b;
+      });
+    });
   }
 }

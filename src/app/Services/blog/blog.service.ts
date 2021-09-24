@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class BlogService {
   constructor(private http: HttpClient) { }
   //temp api var
-  API_URL = "http://localhost:3000/blogs"
+  API_URL = "http://localhost:5000/blogs"
 
   getBlogs(): Observable<Blog[]> {
     return this.http.get<Blog[]>(this.API_URL)

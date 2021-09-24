@@ -25,6 +25,12 @@ export class ResultTableComponent {
 
   searchField!: string
 
+  isDraftisApprover(str: string) {
+    if(this.type!=='Approver')
+      return false
+    return str==='Draft'
+  }
+
   //emits a search event on input
   emitSearch() {
     this.searchEmitter.emit(this.searchField)

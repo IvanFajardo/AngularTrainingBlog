@@ -15,10 +15,10 @@ import { FormControl } from '@angular/forms';
 })
 export class BlogModalComponent implements OnInit {
   @Output() buttonEmitter = new EventEmitter();
+  @Input() title = new FormControl();
   @Input() content = new FormControl();
   @Input() remarks = new FormControl();
-  @Input() title?: string = 'Sample Blog';
-  @Input() type?: string;
+  @Input() type?: string = 'Approver';
 
   public modalRef?: BsModalRef;
   constructor(private modalService: BsModalService) {}
@@ -28,6 +28,7 @@ export class BlogModalComponent implements OnInit {
   emitButton(buttonName: string) {
     console.log(this.content.value);
     console.log(this.remarks.value);
+    console.log(this.title.value);
     console.log(buttonName);
     this.buttonEmitter.emit(buttonName);
     this.close()

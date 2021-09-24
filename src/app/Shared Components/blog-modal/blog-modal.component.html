@@ -1,5 +1,4 @@
   <div class="modal-header" style="padding: 5px 10px 5px 10px; text-align: center;">
-    <h4 style="display: inline-block; margin:0;">{{title}}</h4>
     <button type="button" class="btn-close close" style="display: inline-block; vertical-align: middle;" aria-label="Close" (click)="close()">
         <span aria-hidden="true" class="visually-hidden">&times;</span>
       </button>
@@ -7,14 +6,17 @@
   <div class="modal-body">
     <form>
         <div style="margin-left:10px;">
+          <div class="form-group">
+          <h4>Title</h4>
+          <input [readonly]="type =='Approver'" id="title" name = "title" [formControl]="title" class="form-control">
+         </div>
            <div class="form-group">
             <h4>Content</h4>
-            <textarea readonly id="txtArea" *ngIf="type =='Approver'" rows="7" cols="70%" style="resize: none;" name = "content" [formControl]="content" class="form-control"></textarea>
-            <textarea id="txtArea" *ngIf="type =='Author'" rows="7" cols="70%" style="resize: none;" name = "content" [formControl]="content" class="form-control"></textarea>
+            <textarea [readonly]="type =='Approver'" id="content" rows="7" cols="70%" style="resize: none;" name = "content" [formControl]="content" class="form-control"></textarea>
            </div>
            <div class="form-group" *ngIf="type =='Approver'">
             <h4>Remarks</h4>
-            <textarea id="txtArea" rows="4" cols="70%" style="resize: none;" name = "remarks" [formControl]="remarks" class="form-control"></textarea>
+            <textarea id="remarks" rows="4" cols="70%" style="resize: none;" name = "remarks" [formControl]="remarks" class="form-control"></textarea>
            </div>
         </div>
         </form>

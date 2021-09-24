@@ -15,10 +15,10 @@ import { FormControl } from '@angular/forms';
 })
 export class BlogModalComponent implements OnInit {
   @Output() buttonEmitter = new EventEmitter();
+  @Input() title = new FormControl();
   @Input() content = new FormControl();
   @Input() remarks = new FormControl();
-  @Input() title = new FormControl();
-  @Input() type?: string;
+  @Input() type?: string = 'Approver';
 
   public modalRef?: BsModalRef;
   constructor(private modalService: BsModalService) {}

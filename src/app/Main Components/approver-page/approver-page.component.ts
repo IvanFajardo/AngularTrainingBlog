@@ -30,6 +30,7 @@ export class ApproverPageComponent implements OnInit {
     remarks: new FormControl(),
   });
 
+  //getters for content, remarks, and title
   get content() {
     return this.modalGroup.get('content') as FormControl;
   }
@@ -43,16 +44,19 @@ export class ApproverPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //gets current user logged in and the blogs for display
     this.user = JSON.parse(sessionStorage.getItem('currentUser')!);
     this.getBlog();
   }
 
+  //Filters table based on searched title
   doSearch(event: string) {
     this.filteredTableResults = this.tableResults.filter((data) =>
       data.title.includes(event)
     );
   }
 
+  //Calls setModal for values to display in the modal then opens the modal
   viewRow(event: number) {
     const initialState = {
       content: this.content,
@@ -71,6 +75,7 @@ export class ApproverPageComponent implements OnInit {
     );
   }
 
+  //Sets tableResults data to modalGroup for display in the modal
   setModal(id: number) {
     this.blogID = id;
     let blog: Blog | undefined;
@@ -81,11 +86,12 @@ export class ApproverPageComponent implements OnInit {
       title: blog?.title,
     });
   }
-
+  //Gets the blogs from the json server
   getBlog() {
     this.blogService.getBlogs().subscribe((data) => (this.tableResults = data));
   }
 
+  //Updates the status if Approved or not and saves the remarks to the json server
   updateStatus(buttonName: string) {
     switch (buttonName) {
       case 'approve':
@@ -112,6 +118,7 @@ export class ApproverPageComponent implements OnInit {
     }
   }
 
+  //Called to edit the database
   doEdit(blog: Blog) {
     this.blogService.editBlog(blog as Blog).subscribe((data) => {
       this.tableResults = this.tableResults.map((b) => {

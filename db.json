@@ -19,22 +19,22 @@
       "title": "blog1",
       "content": "Lorem ipsum",
       "datePosted": "Wed Apr 24 2019 10:33:30 GMT+0800 (China Standard Time)",
-      "dateProcessed": "2021-09-24T07:40:21.682Z",
-      "remarks": "rjtyh",
+      "dateProcessed": "2021-09-24T07:55:40.913Z",
+      "remarks": "test remark1",
       "author": "blogger1",
       "approver": "paul",
-      "status": "Rejected"
+      "status": "Approved"
     },
     {
       "id": 2,
       "title": "blog2",
       "content": "Lorem ipsum",
       "datePosted": "Wed Apr 24 2019 10:33:30 GMT+0800 (China Standard Time)",
-      "dateProcessed": "2021-09-24T07:40:17.938Z",
-      "remarks": "test remarkre",
+      "dateProcessed": "2021-09-24T07:55:46.034Z",
+      "remarks": "test remark2",
       "author": "blogger1",
       "approver": "paul",
-      "status": "Approved"
+      "status": "Rejected"
     }
   ]
 }

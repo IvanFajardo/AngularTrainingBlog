@@ -19,11 +19,12 @@ export class BlogModalComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  //Passes the name of the button for updateStatus
   emitButton(buttonName: string) {
     this.buttonEmitter.emit(buttonName);
     this.modalService.hide();
   }
-
+  //Closes the modal
   close() {
     this.modalService.hide();
   }

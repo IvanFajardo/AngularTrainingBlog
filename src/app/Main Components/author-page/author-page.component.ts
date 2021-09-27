@@ -13,11 +13,6 @@ import { BlogModalComponent } from 'src/app/Shared Components/blog-modal/blog-mo
 })
 export class AuthorPageComponent implements OnInit {
   bsModalRef!: BsModalRef;
-  constructor(
-    private fb: FormBuilder,
-    private blogService: BlogService,
-    private modalService: BsModalService
-  ) {}
   modalGroup = this.fb.group({
     title: [''],
     content: [''],
@@ -28,6 +23,13 @@ export class AuthorPageComponent implements OnInit {
   filteredTableResults!: Blog[];
   user!: User;
   currentBlogID: number = -1;
+
+  constructor(
+    private fb: FormBuilder,
+    private blogService: BlogService,
+    private modalService: BsModalService
+  ) {}
+
 
   ngOnInit(): void {
     //subscribe to blogs
@@ -141,6 +143,7 @@ export class AuthorPageComponent implements OnInit {
 
   //generate a valid id
   generateID(): number {
+    if(!this.tableResults.length) return 1
     return this.tableResults.reduce((a, b) => (a.id > b.id ? a : b)).id + 1;
   }
 

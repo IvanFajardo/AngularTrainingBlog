@@ -26,10 +26,6 @@ export class BlogModalComponent implements OnInit {
   ngOnInit(): void {}
 
   emitButton(buttonName: string) {
-    console.log(this.content.value);
-    console.log(this.remarks.value);
-    console.log(this.title.value);
-    console.log(buttonName);
     this.buttonEmitter.emit(buttonName);
     this.close()
   }

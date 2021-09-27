@@ -48,7 +48,7 @@ export class LoginPageComponent implements OnInit {
     }
     if (user.password == this.loginForm.value.password) {
       sessionStorage.setItem('currentUser',JSON.stringify(user))
-      this.navigateTo('blog'); //add approver or author
+      this.navigateTo(`blog/${user.userType.toLowerCase()}`); //add approver or author
     } else {
       alert('Password is incorrect.');
     }

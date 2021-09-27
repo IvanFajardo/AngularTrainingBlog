@@ -1,4 +1,4 @@
-type status = 'For Approval' | 'Approved' | 'Rejected' | 'Draft'
+export type status = 'For Approval' | 'Approved' | 'Rejected' | 'Draft'
 export interface Blog {
   id: number,
   title: string,

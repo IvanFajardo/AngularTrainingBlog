@@ -25,19 +25,12 @@ export class BlogModalComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
-
   emitButton(buttonName: string) {
-    console.log(this.content.value);
-    console.log(this.remarks.value);
-    console.log(this.title.value);
-    console.log(buttonName);
     this.buttonEmitter.emit(buttonName);
+    this.close()
   }
 
   close() {
-    this.modalRef?.hide();
+    this.modalService.hide();
   }
 }

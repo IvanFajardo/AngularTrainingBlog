@@ -1,27 +1,27 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Blog } from 'src/app/models/Blog';
 
 @Component({
   selector: 'app-result-table',
   templateUrl: './result-table.component.html',
-  styleUrls: ['./result-table.component.css']
+  styleUrls: ['./result-table.component.css'],
 })
 export class ResultTableComponent {
   searchField!: string
   constructor() { }
 
   @Input()
-  tableResults!: Blog[]
+  tableResults!: Blog[];
   @Input()
-  type!: string
+  type!: string;
   @Output()
-  searchEmitter: EventEmitter<string> = new EventEmitter
+  searchEmitter: EventEmitter<string> = new EventEmitter();
   @Output()
-  editEmitter: EventEmitter<number> = new EventEmitter
+  editEmitter: EventEmitter<number> = new EventEmitter();
   @Output()
-  deleteEmitter: EventEmitter<number> = new EventEmitter
+  deleteEmitter: EventEmitter<number> = new EventEmitter();
   @Output()
-  createEmitter: EventEmitter<any> = new EventEmitter
+  createEmitter: EventEmitter<any> = new EventEmitter();
 
 
 
@@ -46,5 +46,4 @@ export class ResultTableComponent {
   emitEdit(id:number):void {
     this.editEmitter.emit(id)
   }
-
 }

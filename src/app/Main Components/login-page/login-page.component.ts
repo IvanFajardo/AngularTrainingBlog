@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/Services/user.service';
-import { User } from 'src/app/models/User';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/User';
+import { UserService } from 'src/app/Services/user.service';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -36,7 +36,7 @@ export class LoginPageComponent implements OnInit {
 
   //Console log first since author and approver pages are not done yet
   navigateTo(url: string) {
-    this.router.navigate([url])
+    this.router.navigate([url]);
   }
 
   validateUser() {

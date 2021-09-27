@@ -1,13 +1,6 @@
-import {
-  Component,
-  OnInit,
-  TemplateRef,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-blog-modal',
   templateUrl: './blog-modal.component.html',
@@ -18,7 +11,8 @@ export class BlogModalComponent implements OnInit {
   @Input() title = new FormControl();
   @Input() content = new FormControl();
   @Input() remarks = new FormControl();
-  @Input() type?: string = 'Approver';
+
+  @Input() type?: string;
 
   public modalRef?: BsModalRef;
   constructor(private modalService: BsModalService) {}
@@ -29,7 +23,7 @@ export class BlogModalComponent implements OnInit {
     this.buttonEmitter.emit(buttonName);
     this.close()
   }
-
+  //Closes the modal
   close() {
     this.modalService.hide();
   }

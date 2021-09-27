@@ -1,30 +1,4 @@
 {
-  "blogs": [
-    {
-      "id": 1,
-      "title": "blog1",
-      "content": "Lorem ipsum",
-      "datePosted": "Wed Apr 24 2019 10:33:30 GMT+0800 (China Standard Time)",
-      "status": "Draft",
-      "author": "blogger1"
-    },
-    {
-      "id": 2,
-      "title": "blog2",
-      "content": "Lorem ipsum",
-      "datePosted": "Wed Apr 24 2019 10:33:30 GMT+0800 (China Standard Time)",
-      "status": "Draft",
-      "author": "blogger2"
-    },
-    {
-      "id": 3,
-      "title": "blog3",
-      "content": "Lorem ipsum",
-      "datePosted": "Wed Apr 24 2019 10:33:30 GMT+0800 (China Standard Time)",
-      "status": "Draft",
-      "author": "blogger1"
-    }
-  ],
   "users": [
     {
       "id": 1,
@@ -37,6 +11,30 @@
       "username": "paul",
       "password": "123",
       "userType": "Approver"
+    }
+  ],
+  "blogs": [
+    {
+      "id": 1,
+      "title": "blog1",
+      "content": "Lorem ipsum",
+      "datePosted": "Wed Apr 24 2019 10:33:30 GMT+0800 (China Standard Time)",
+      "dateProcessed": "2021-09-27T00:19:19.573Z",
+      "remarks": "test remarks again 123",
+      "author": "blogger1",
+      "approver": "paul",
+      "status": "Rejected"
+    },
+    {
+      "id": 2,
+      "title": "blog2",
+      "content": "Lorem ipsum",
+      "datePosted": "Wed Apr 24 2019 10:33:30 GMT+0800 (China Standard Time)",
+      "dateProcessed": "2021-09-27T00:21:52.565Z",
+      "remarks": "testing",
+      "author": "blogger1",
+      "approver": "paul",
+      "status": "Approved"
     }
   ]
 }

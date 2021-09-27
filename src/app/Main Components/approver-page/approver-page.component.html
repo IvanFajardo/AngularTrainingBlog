@@ -1,0 +1,10 @@
+<div style="margin-top: 50px;">
+<app-result-table
+  (searchEmitter)="doSearch($event)"
+  (editEmitter)="viewRow($event)"
+  [tableResults]="filteredTableResults ? filteredTableResults : tableResults"
+  [type]="user.userType"
+></app-result-table>
+
+</div>
+

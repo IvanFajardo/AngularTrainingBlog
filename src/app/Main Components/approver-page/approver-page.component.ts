@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { status } from 'src/app/models/Blog';
 import { Blog } from 'src/app/models/Blog';
 import { User } from 'src/app/models/User';
@@ -18,17 +18,19 @@ export class ApproverPageComponent implements OnInit {
   user!: User;
   bsModalRef!: BsModalRef;
   blogID?: number;
+  modalGroup: any;
 
   constructor(
     private blogService: BlogService,
-    private modalService: BsModalService
-  ) {}
-
-  modalGroup = new FormGroup({
-    title: new FormControl(),
-    content: new FormControl(),
-    remarks: new FormControl(),
-  });
+    private modalService: BsModalService,
+    private formBuilder: FormBuilder
+  ) {
+    this.modalGroup = this.formBuilder.group({
+      title: [''],
+      content: [''],
+      remarks: [''],
+    });
+  }
 
   //getters for content, remarks, and title
   get content() {
@@ -93,29 +95,19 @@ export class ApproverPageComponent implements OnInit {
 
   //Updates the status if Approved or not and saves the remarks to the json server
   updateStatus(buttonName: string) {
-    switch (buttonName) {
-      case 'approve':
-      case 'reject':
-        let currentBlog = this.tableResults.find(
-          (data) => data.id === this.blogID
-        );
-        let editedBlog = {
-          id: this.blogID,
-          title: currentBlog?.title,
-          content: currentBlog?.content,
-          datePosted: currentBlog?.datePosted,
-          dateProcessed: new Date(),
-          remarks: this.modalGroup.get('remarks')?.value,
-          author: currentBlog?.author,
-          approver: this.user.username,
-          status: (buttonName === 'approve'
-            ? 'Approved'
-            : 'Rejected') as status,
-        };
-
-        this.doEdit(editedBlog as Blog);
-        break;
-    }
+    let currentBlog = this.tableResults.find((data) => data.id === this.blogID);
+    let editedBlog = {
+      id: this.blogID,
+      title: currentBlog?.title,
+      content: currentBlog?.content,
+      datePosted: currentBlog?.datePosted,
+      dateProcessed: new Date(),
+      remarks: this.modalGroup.get('remarks')?.value,
+      author: currentBlog?.author,
+      approver: this.user.username,
+      status: (buttonName === 'approve' ? 'Approved' : 'Rejected') as status,
+    };
+    this.doEdit(editedBlog as Blog);
   }
 
   //Called to edit the database

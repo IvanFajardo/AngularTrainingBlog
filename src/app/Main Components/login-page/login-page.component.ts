@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/Services/user.service';
-import { User } from 'src/app/models/User';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/User';
+import { UserService } from 'src/app/Services/user.service';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -47,8 +47,7 @@ export class LoginPageComponent implements OnInit {
       return;
     }
     if (user.password == this.loginForm.value.password) {
-      sessionStorage.setItem('currentUser', JSON.stringify(user));
-      console.log(user.userType);
+      sessionStorage.setItem('currentUser',JSON.stringify(user))
       this.navigateTo(`blog/${user.userType.toLowerCase()}`); //add approver or author
     } else {
       alert('Password is incorrect.');

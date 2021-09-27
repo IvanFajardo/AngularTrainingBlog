@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-blog-modal',
   templateUrl: './blog-modal.component.html',
@@ -19,10 +19,9 @@ export class BlogModalComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  //Passes the name of the button for updateStatus
   emitButton(buttonName: string) {
     this.buttonEmitter.emit(buttonName);
-    this.modalService.hide();
+    this.close()
   }
   //Closes the modal
   close() {

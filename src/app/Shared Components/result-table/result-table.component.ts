@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Blog } from 'src/app/models/Blog';
 
 @Component({
@@ -7,7 +7,8 @@ import { Blog } from 'src/app/models/Blog';
   styleUrls: ['./result-table.component.css'],
 })
 export class ResultTableComponent {
-  constructor() {}
+  searchField!: string
+  constructor() { }
 
   @Input()
   tableResults!: Blog[];
@@ -22,31 +23,27 @@ export class ResultTableComponent {
   @Output()
   createEmitter: EventEmitter<any> = new EventEmitter();
 
-  searchField!: string;
+
 
   //emits a search event on input
   emitSearch() {
-    this.searchEmitter.emit(this.searchField);
-    console.log(this.searchField);
+    this.searchEmitter.emit(this.searchField)
   }
 
   //emits a create event on create button click
   emitCreate() {
-    this.createEmitter.emit();
-    console.log('create');
+    this.createEmitter.emit()
   }
 
   //emits a delete event on delete button click
   //id:number = id of blog row
-  emitDelete(id: number): void {
-    this.deleteEmitter.emit(id);
-    console.log('delete');
+  emitDelete(id: number):void {
+    this.deleteEmitter.emit(id)
   }
 
   //emits an edit event on edit button click
   //id:number = id of blog row
-  emitEdit(id: number): void {
-    this.editEmitter.emit(id);
-    console.log('edit');
+  emitEdit(id:number):void {
+    this.editEmitter.emit(id)
   }
 }
